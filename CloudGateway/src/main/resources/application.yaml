@@ -1,0 +1,27 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: API-GATEWAY
+  config:
+    import: configserver:http://localhost:9296
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    gateway:
+      mvc:
+        routes:
+          - id: CONTRACT-REPAYMENT-SERVICE
+            uri: lb://CONTRACT-REPAYMENT-SERVICE
+            predicates:
+              - Path=/api/repayments/**
+
+okta:
+  oauth2:
+    issuer: https://dev-58724469.okta.com/oauth2/default
+    audience: api://default
+    client-id: 0oafrnfqu8b7LR4Wq5d7
+    client-secret: AuBYX9CmLwDbVPG9wDncEcOmnLvuOHsTT4l4ruzkm8ORKnk9_cFVGCziRRkK52-U
+    scopes: openid, profile2, email, offline_access
+

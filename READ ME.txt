@@ -1,0 +1,51 @@
+README
+Setting up and Running contractRepaymentService on IntelliJ
+Open contractRepaymentService
+
+On MySQL Workbench create schema called contractsdb
+replace db credential on contractRepaymentService  application.yaml with your credentials
+Open the querries.sql file with a file editor like Notepad and run the querries inside the file 
+
+Open IntelliJ IDEA.
+Open the contractRepaymentService project
+
+Click on the "Maven" tab in the right-hand panel.
+Click on the "+" button to add the "service-registry" service
+This will download the dependencies and add them to your project and all your project will open in one window.
+
+Do the same with "CloudGateway" and "configServer"
+
+Go to "Tool Windows" > "Services".
+The "Services" tab will open at the bottom of the IntelliJ IDEA window.
+Look for "ServiceRegistry" in the services tab. It will indicate that it's not started.
+Start ServiceRegistry
+
+on Services tab look for ConfigServerApplication, ServiceRegistryApplication, CloudGateWayApplication, ContractRepaymentserviceApplication
+Click on each in the order listed above and Press the play button to start each service.
+
+ServiceRegistryApplication will open the application/browser on http://127.0.0.1:8761.
+On the opened window you will see Running services under Application
+
+
+For example you will see an application named "CONTRACT-REPAYMENT-SERVICE".
+This indicates that the contractRepaymentService is successfully running in the ServiceRegistry.
+
+Open Docker Desktop(make sure Docker is Installed in your system, if not google how to install docker and install it)
+Install zipkin using Docker - This and Sleuth are used for Distributed log tracing in our microservices architecture(https://zipkin.io/pages/quickstart.html) 
+Once Docker is install run command "docker run -d -p 9411:9411 openzipkin/zipkin"
+Open Docker and verify that there is zipkin Container running
+Open browser and type http://localhost:9411/zipkin/ 
+
+Open the below on a browser to get authenticate details such as token. userId etc On Okta 
+http://localhost:9090/authenticate/login
+username: tinyikosnr.chauke@gmail.com
+password: nico@tut2016
+
+Run the below post API call on Postman to verify that you can access the calculate repayment functionality
+http://localhost:9090/api/repayments/calculate
+{
+    "amount": "700"
+}
+
+
+The front end will use authenticate details obtained at http://localhost:9090/authenticate/login to authaunticate in the GETWAY and the GETWAY will route the request to the service 
